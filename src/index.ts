@@ -1,4 +1,4 @@
-import { readFileSync } from "jsonfile";
+import { readFile } from "jsonfile";
 
 export default class LiteAcl {
     private static ac: LiteAcl;
@@ -31,8 +31,8 @@ export default class LiteAcl {
      * 从JSON文件添加角色权限
      * @param filepath 文件地址
      */
-    addJsonfile(filepath: string) {
-        const obj: object = readFileSync(filepath);
+    async addJsonfile(filepath: string) {
+        const obj: object = await readFile(filepath);
         for (const k of Object.keys(obj)) {
             this.rolePermissions.set(k, new Set([...obj[k]]));
         }
