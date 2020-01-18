@@ -8,6 +8,9 @@ export default class LiteAcl {
         this.rolePermissions = new Map();
     }
 
+    /**
+     * 获取ac实例
+     */
     static getAC() {
         if (!LiteAcl.ac) {
             LiteAcl.ac = new LiteAcl();
@@ -15,12 +18,19 @@ export default class LiteAcl {
         return LiteAcl.ac;
     }
 
-    // 添加角色权限
+    /**
+     * 添加角色权限
+     * @param role 角色
+     * @param permissions 权限
+     */
     add(role: string, permissions: (string | number)[]) {
         this.rolePermissions.set(role, new Set([...(this.rolePermissions.get(role) || []), ...permissions]));
     }
 
-    // 从JSON文件添加角色权限
+    /**
+     * 从JSON文件添加角色权限
+     * @param filepath 文件地址
+     */
     addJsonfile(filepath: string) {
         const obj: object = readFileSync(filepath);
         for (const k of Object.keys(obj)) {
@@ -30,7 +40,7 @@ export default class LiteAcl {
 
     /**
      * 查看指定角色/或全部角色的权限
-     * @param role 
+     * @param role 指定角色 如果不传则为全部角色
      */
     view(role: string | string[] = []): { role: string, permissions: (string | number)[] }[] {
         const roles = Array.isArray(role) ? role : [role];
@@ -53,7 +63,7 @@ export default class LiteAcl {
 
     /**
      * 删除指定角色的权限
-     * @param role 
+     * @param role 指定角色
      */
     del(role: string | string[]) {
         const roles = Array.isArray(role) ? role : [role];
