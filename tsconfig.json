@@ -1,0 +1,19 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "commonjs",
+        "strict": true,
+        "declaration": true,
+        "sourceMap": true,
+        "outDir": "./dist",
+        "rootDir": "./src",
+        "noImplicitAny": false,
+        "esModuleInterop": true,
+    },
+    "exclude": [
+        "node_modules*",
+        "test/",
+        "dist/"
+    ]
+}

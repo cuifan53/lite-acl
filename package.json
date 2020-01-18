@@ -1,0 +1,33 @@
+{
+    "name": "lite-acl",
+    "version": "0.0.1",
+    "description": "a very lite acl",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "npx tsc -p .",
+        "test": "ts-node test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cuifan53/lite-acl.git"
+    },
+    "keywords": [
+        "acl",
+        "lite",
+        "lite-acl",
+        "acl-lite"
+    ],
+    "author": "cuifan53",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/cuifan53/lite-acl/issues"
+    },
+    "homepage": "https://github.com/cuifan53/lite-acl#readme",
+    "dependencies": {
+        "jsonfile": "^5.0.0"
+    },
+    "devDependencies": {
+        "@types/jsonfile": "^5.0.0"
+    }
+}
