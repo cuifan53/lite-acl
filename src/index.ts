@@ -1,5 +1,7 @@
 import { readFile } from "jsonfile";
 
+
+
 export default class LiteAcl {
     private static ac: LiteAcl;
     private rolePermissions: Map<string, Set<string | number>>;
@@ -108,16 +110,30 @@ export default class LiteAcl {
     }
 }
 
-export const Can = function (permissions: (string | number)[], role: string | string[] = '') {
-    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+/**
+ * 方法装饰器 注：如果没有传入角色，则使用ctx.liteAclRole
+ * @param permissions 
+ * @param role 
+ */
+export const Can = function (permissions: (string | number)[], role: string | string[] = ''
+    , options: { canType?: 'all' | 'one' } = { canType: 'all' }): Function {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
         const original = descriptor.value;
         descriptor.value = function (...args: any[]) {
-            const askRole = role ? role : (this as any).ctx.liteAclRole;
+            const askRole = role ? role : (this as any).ctx.liteAclRole || [];
             if (!LiteAcl.getAC().can(askRole, permissions)) {
-                throw new Error('无权操作');
+                throw new ForbiddenError('无权操作');
             }
             return original.apply(this, args);
         };
         return descriptor;
+    }
+}
+
+export class ForbiddenError extends Error {
+    constructor(msg: string) {
+        super(msg);
+        this.message = msg;
+        this.name = 'ForbiddenError';
     }
 }
