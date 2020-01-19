@@ -125,7 +125,7 @@ export const Can = function (permissions: (string | number)[], role: string | st
         const original = descriptor.value;
         descriptor.value = function (...args: any[]) {
             const askRole = role ? role : (this as any).ctx.liteAclRole || [];
-            if (!LiteAcl.getAC().can(askRole, permissions)) {
+            if (!LiteAcl.getAC().can(askRole, permissions, options)) {
                 throw new ForbiddenError('无权操作');
             }
             return original.apply(this, args);
