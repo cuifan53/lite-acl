@@ -2,7 +2,7 @@
 最近做公司项目需要对接口做权限控制，但是npm的组件都太大了，所以自己写了个超轻量级的ACL
 
 ```
-import LiteAcl from 'lite-acl';
+import LiteAcl,{Can} from 'lite-acl';
 
 const ac = LiteAcl.getAC();
 
@@ -18,4 +18,14 @@ ac.can('role1', ['a',1]); // true
 ac.can('role1', ['a', 'c']); // false
 ac.can('role1', ['a', 'c'], {canType:'one'}); // true
 ac.can(['role1', 'role2'], ['a','dd.ee']); // true
+
+class AController{
+  @Can(['dd.ee'],'role2')
+  run1(){
+  }
+  
+  @Can(['dd.ee']) // 如果省略角色，则角色默认取ctx.liteAclRole属性值
+  run2(){
+  }
+}
 ```
