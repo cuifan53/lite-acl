@@ -1,6 +1,6 @@
 {
     "name": "lite-acl",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "a very lite acl",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",

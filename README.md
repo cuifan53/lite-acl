@@ -8,6 +8,7 @@ const ac = LiteAcl.getAC();
 
 ac.add('role1', ['a', 1, 'b']);
 ac.add('role2', 'dd.ee');
+ac.add({'role3':[1,2,3], 'role4':[4,5]})
 ac.add('demo.json'); // 可以从json文件读取配置，但是必须是 {(role:string):(permissions:(string|number)[])}格式的json
 
 ac.view('role1');
