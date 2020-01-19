@@ -1,7 +1,5 @@
 import { readFile } from "jsonfile";
 
-
-
 export default class LiteAcl {
     private static ac: LiteAcl;
     private rolePermissions: Map<string, Set<string | number>>;
@@ -25,8 +23,16 @@ export default class LiteAcl {
      * @param role 角色
      * @param permissions 权限
      */
-    add(role: string, permissions: (string | number)[]) {
-        this.rolePermissions.set(role, new Set([...(this.rolePermissions.get(role) || []), ...permissions]));
+    add(role: string, permissions: (string | number)[]): void;
+    add(role: { [key: string]: (string | number)[] }): void;
+    add(role: string | { [key: string]: (string | number)[] }, permissions?: (string | number)[]) {
+        if (Object.prototype.toString.call(role) === '[object String]') {
+            this.rolePermissions.set(role as string, new Set([...(this.rolePermissions.get(role as string) || []), ...permissions as (string | number)[]]));
+        } else {
+            for (const k of Object.keys(role)) {
+                this.rolePermissions.set(k, new Set([...(this.rolePermissions.get(k) || []), ...role[k]]));
+            }
+        }
     }
 
     /**
@@ -34,10 +40,8 @@ export default class LiteAcl {
      * @param filepath 文件地址
      */
     async addJsonfile(filepath: string) {
-        const obj: object = await readFile(filepath);
-        for (const k of Object.keys(obj)) {
-            this.rolePermissions.set(k, new Set([...obj[k]]));
-        }
+        const obj: { [key: string]: (string | number)[] } = await readFile(filepath);
+        this.add(obj);
     }
 
     /**
