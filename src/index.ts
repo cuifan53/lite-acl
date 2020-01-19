@@ -107,3 +107,17 @@ export default class LiteAcl {
         return false;
     }
 }
+
+export const Can = function (permissions: (string | number)[], role: string | string[] = '') {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        const original = descriptor.value;
+        descriptor.value = function (...args: any[]) {
+            const askRole = role ? role : (this as any).ctx.liteAclRole;
+            if (!LiteAcl.getAC().can(askRole, permissions)) {
+                throw new Error('无权操作');
+            }
+            return original.apply(this, args);
+        };
+        return descriptor;
+    }
+}
