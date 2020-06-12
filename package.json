@@ -1,7 +1,7 @@
 {
 	"name": "lite-acl",
-	"version": "1.0.6",
-	"description": "a very lite acl",
+	"version": "1.0.0",
+	"description": "超轻量级acl",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
